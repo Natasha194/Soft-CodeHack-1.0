@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Research Space</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body style="background-color: #5D5990; color: whitesmoke;">
+    
+    <center><h1 style="font-family: Kristen ITC;">Research Space</h1></center>
+    <center>
+      <textarea id="response" disabled style="height: 420px; width: 1100px; background-color: #5D5990;"></textarea>
+    </center>
+  <center>  
+    <button onclick="generateResponse()" style="background-color: white; border-width: 0px; border-radius: 10px; float: right; margin-top: 20px; margin-right: 160px;">
+      <img src="sendBlack.png">
+    </button>
+
+    <textarea id="input-text" rows="5" cols="130" placeholder="Enter your text here..." style="border-radius: 10px; margin-bottom: -90px; margin-left: 110px;"></textarea>
+  </center>
+  
+
+  
+  
+
+
+
+
+
+
+
+  <script>
+    function generateResponse() {
+      var inputText = document.getElementById("input-text").value;
+
+      $.ajax({
+        type: "POST",
+        url: "https://api.openai.com/v1/engines/davinci-codex/completions",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer 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"
+        },
+        // Corrected code - removed unnecessary commas
+        data: JSON.stringify({
+          "prompt": inputText,
+          "max_tokens": 0
+        }),
+        success: function(response) {
+          var generatedText = response.choices[0].text;
+          document.getElementById("response").innerText = generatedText;
+        },
+        error: function(xhr, status, error) {
+          console.error(error);
+        }
+      });
+    }
+  </script>
+</body>
+</html>
